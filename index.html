@@ -147,7 +147,6 @@ h1{font-family:var(--serif);font-weight:500;font-size:clamp(2.7rem,8vw,7rem);lin
 .btn.ghost{background:transparent;color:var(--fg)}
 .btn.ghost:hover{background:var(--fg);color:var(--bg)}
 section{scroll-margin-top:80px}
-.stand-sec,.founder-sec,#faq,.contact{content-visibility:auto;contain-intrinsic-size:auto 800px}
 .sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:2rem;margin-bottom:3.6rem;flex-wrap:wrap}
 .sec-title{display:flex;gap:1.5rem;align-items:baseline}
 .big-num{font-family:var(--serif);font-style:italic;font-weight:400;font-size:clamp(3rem,6.5vw,5.6rem);line-height:.8;color:transparent;-webkit-text-stroke:1.2px var(--copper)}
@@ -683,6 +682,8 @@ if(matchMedia('(pointer:fine)').matches&&!matchMedia('(prefers-reduced-motion:re
 let rvI=0;
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.style.transitionDelay=((rvI++%3)*0.08)+'s';e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.1});
 document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+/* safety net: never leave content permanently invisible if a reveal is missed (slow devices, orientation change, observer edge cases) */
+setTimeout(()=>document.querySelectorAll('.reveal:not(.in)').forEach(el=>{el.classList.add('in');io.unobserve(el)}),2500);
 
 /* ---------- navigator: dots + guiding arrow ---------- */
 const ids=['top','gap','signals','practice','method','standpoints','founder','faq','contact'];
