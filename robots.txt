@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mystandpoint.in/sitemap.xml
